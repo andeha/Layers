@@ -43,7 +43,7 @@ To enable the `Parall`, see the example code below:
         open func updateResolutions(includes: MTLSize, excludes: MTLSize) {}
         open func peek(entry: (Chronology, BezierPath2D, [BezierDraw2DArgument], inout Bool)->Void) {}
         open func seed(at: BezierPath2D) {}
-        open func bezier(locus at: BezierPath2D, contemplative cp1: BezierPath2D, retrospective cp2: BezierPath2D, radius: BezierPath1D, intentional p3Color: BezierPath3D) {}
+        open func bezier(locus at: BezierPath2D, contemplative cp1: BezierPath2D, retrospective cp2: BezierPath2D, radius: BezierPath1D, azimuth: BezierPath1D, sign: Strider = leftHanded ? StriderStern : StriderPort, intentional p3Color: BezierPath3D) {} 
         open func stroke(beziers: TiledStrokes) {}
         open func commit(validTime finish: Chronology) {}
         open func rollback() {}
