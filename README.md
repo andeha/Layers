@@ -5,11 +5,11 @@ On large-sized multitouch touchpads with haptic feedback, parallel computations 
 To enable the `Parall`, see the example code below:
 
     import MetalKit
-
+    
     struct TiledStrokes {
         var beziers: [(Chronology, BezierPath2D, [BezierDraw2DArgument])]
     }
-
+    
     class GPUServer {
         func compute(drawable: CAMetalDrawable?) {
             Parall.prefered.enque(entryPoint: "bezierDraw2D",
@@ -27,29 +27,29 @@ To enable the `Parall`, see the example code below:
         },
      out: { (buffer: MTLCommandBuffer) in
             let bytesPerPixel = 4
-    //            let bytesPerRow = bytesPerPixel * radiances.width
-    //            let size = CGSize(width: radiances.width, height: radiances.height)
-    //            let byteCount = Int(CGFloat(bytesPerPixel) * size.width * size.height)
-    //            var bytes = [UInt8](repeating: 0, count: byteCount)
-    //            radiances.getBytes(&imageBytes, bytesPerRow: Int(bytesPerRow),
-    //                from: MTLRegionMake2D(0, 0, Int(size.width), Int(size.height)), mipmapLevel: 0)
-    //            completion(bytes as? CAMetalDrawable)
+                let bytesPerRow = bytesPerPixel * radiances.width
+                let size = CGSize(width: radiances.width, height: radiances.height)
+                let byteCount = Int(CGFloat(bytesPerPixel) * size.width * size.height)
+                var bytes = [UInt8](repeating: 0, count: byteCount)
+                radiances.getBytes(&imageBytes, bytesPerRow: Int(bytesPerRow),
+                    from: MTLRegionMake2D(0, 0, Int(size.width), Int(size.height)), mipmapLevel: 0)
+                completion(bytes as? CAMetalDrawable)
         })
     }
     
-    var delegate: GPUServerDelegate?
-    var resolutions: [MTLSize] { return [] } // [😐]: Isn't that great <--.*
-    var drawable: CAMetalDrawable?
-    var context = Parall.prefered.buffer(initial: 4096)!
+        var delegate: GPUServerDelegate?
+        var resolutions: [MTLSize] { return [] } 
+        var drawable: CAMetalDrawable?
+        var context = Parall.prefered.buffer(initial: 4096)!
     
-    // MARK: Public API for the Spatial Domain
-    open func updateResolutions(includes: MTLSize, excludes: MTLSize) {}
-    open func peek(entry: (Chronology, BezierPath2D, [BezierDraw2DArgument], inout Bool)->Void) {}
-    open func seed(at: BezierPath2D) {}
-    open func bezier(locus at: BezierPath2D, contemplative cp1: BezierPath2D, retrospective cp2: BezierPath2D, radius: BezierPath1D, intentional p3Color: BezierPath3D) {}
-    open func stroke(beziers: TiledStrokes) {}
-    open func commit(validTime finish: Chronology) {}
-    open func rollback() {}
+        // MARK: Public API for the Spatial Domain
+        open func updateResolutions(includes: MTLSize, excludes: MTLSize) {}
+        open func peek(entry: (Chronology, BezierPath2D, [BezierDraw2DArgument], inout Bool)->Void) {}
+        open func seed(at: BezierPath2D) {}
+        open func bezier(locus at: BezierPath2D, contemplative cp1: BezierPath2D, retrospective cp2: BezierPath2D, radius: BezierPath1D, intentional p3Color: BezierPath3D) {}
+        open func stroke(beziers: TiledStrokes) {}
+        open func commit(validTime finish: Chronology) {}
+        open func rollback() {}
     }
     
     extension GPUServer {
@@ -70,23 +70,23 @@ To enable the `Parall`, see the example code below:
         NSGraphicsContext.restoreGraphicsState()
         return bmpImageRep
     }
-    fileprivate func draw(layer: NSWindow) {
-        let bounds = layer.bounds
-        // Figure out the scale of pixels to points
-        let scale = layer.convertToBacking(<#T##rect: NSRect##NSRect#>)
-        CGFloat scale = [self convertSizeToBacking:CGSizeMake(1,1)].width;
-        // Supply the user size (points)
-        let alignOpts = NSAlignmentOptions.xxx
-        alignedRect = self.backingAlignedRect
-        let imageRep = self.drawToBitmapOfWidth(bounds.size.width, height: bounds.size.height, scale: scale)
-        imageRep.drawInRect(bounds)
-    }
+        fileprivate func draw(layer: NSWindow) {
+            let bounds = layer.bounds
+            // Figure out the scale of pixels to points
+            let scale = layer.convertToBacking(<#T##rect: NSRect##NSRect#>)
+            CGFloat scale = [self convertSizeToBacking:CGSizeMake(1,1)].width;
+            // Supply the user size (points)
+            let alignOpts = NSAlignmentOptions.xxx
+            alignedRect = self.backingAlignedRect
+            let imageRep = self.drawToBitmapOfWidth(bounds.size.width, height: bounds.size.height, scale: scale)
+            imageRep.drawInRect(bounds)
+        }
     }
     
     protocol GPUServerDelegate {
-    func willIncorporate(_ gpuServer: GPUServer, resolution: MTLSize)
-    func didIncorporate(_ gpuServer: GPUServer, resolution: MTLSize) // 
-    func didExclude(_ gpuServer: GPUServer, resolution: MTLSize)
+        func willIncorporate(_ gpuServer: GPUServer, resolution: MTLSize)
+        func didIncorporate(_ gpuServer: GPUServer, resolution: MTLSize)
+        func didExclude(_ gpuServer: GPUServer, resolution: MTLSize)
     }
     
     class Doubler {
