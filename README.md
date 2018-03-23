@@ -90,11 +90,11 @@ To enable the `Parall`, see the example code below:
     }
     
     class Doubler {
-    var input = Parall.prefered.buffer(initial: 4096)!
-    var output = Parall.prefered.buffer(initial: 4096)!
-    init() { for i in 0..<input.length { input[i] = 12 } }
-    func compute() {
-        Parall.prefered.enque(entryPoint: "doubler",
+        var input = Parall.prefered.buffer(initial: 4096)!
+        var output = Parall.prefered.buffer(initial: 4096)!
+        init() { for i in 0..<input.length { input[i] = 12 } }
+        func compute() {
+            Parall.prefered.enque(entryPoint: "doubler",
       in: { (encoder: MTLComputeCommandEncoder) -> Any? in
             encoder.setBuffer(input, offset: 0, at: 0)
             encoder.setBuffer(output, offset: 0, at: 1)
@@ -107,6 +107,6 @@ To enable the `Parall`, see the example code below:
         },
      out: { (buffer: MTLCommandBuffer) in
             for i in 0..<self.output.length { let x = self.output[i]; debugPrint("x: \(x!)") }
-        })
-    }
+            })
+        }
     }
