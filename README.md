@@ -32,8 +32,7 @@ To enable the `Parall`, see the example code below:
                 radiances.getBytes(&imageBytes, bytesPerRow: Int(bytesPerRow),
                     from: MTLRegionMake2D(0, 0, Int(size.width), Int(size.height)), mipmapLevel: 0)
                 completion(bytes as? CAMetalDrawable)
-        })
-    }
+        }) }
     
         var delegate: GPUServerDelegate?
         var resolutions: [MTLSize] { return [] } 
