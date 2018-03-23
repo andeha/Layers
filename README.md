@@ -6,9 +6,7 @@ To enable the `Parall`, see the example code below:
 
     import MetalKit
     
-    struct TiledStrokes {
-        var beziers: [(Chronology, BezierPath2D, [BezierDraw2DArgument])]
-    }
+    struct TiledStrokes { var beziers: [(Chronology, BezierPath2D, [BezierDraw2DArgument])] }
     
     class GPUServer {
         func compute(drawable: CAMetalDrawable?) {
@@ -25,7 +23,7 @@ To enable the `Parall`, see the example code below:
             let numThreadgroups = MTLSize(width: 16, height: 1, depth: 1)
             return (numThreadgroups, threadsPerGroup)
         },
-     out: { (buffer: MTLCommandBuffer) in
+       out: { (buffer: MTLCommandBuffer) in
             let bytesPerPixel = 4
                 let bytesPerRow = bytesPerPixel * radiances.width
                 let size = CGSize(width: radiances.width, height: radiances.height)
@@ -53,23 +51,23 @@ To enable the `Parall`, see the example code below:
     }
     
     extension GPUServer {
-    fileprivate func drawToBitmap(width: Int, height: Int, scale: CGFloat) -> NSBitmapImageRep? { // TODO: Use non-rectangular or mask.
-        guard let bmpImageRep = NSBitmapImageRep(bitmapDataPlanes: nil,
-            pixelsWide: Int(CGFloat(width) * scale), pixelsHigh: Int(CGFloat(height) * scale),
-            bitsPerSample: 8, samplesPerPixel: 4,
-            hasAlpha: true, isPlanar: false,
-            colorSpaceName: NSCalibratedRGBColorSpace,
-            bytesPerRow: 0, bitsPerPixel: 0)?.retagging(with: .sRGB) else { return nil }
-        bmpImageRep.size = NSSize(width: width, height: height)
-        let bitmapContext = NSGraphicsContext(bitmapImageRep: bmpImageRep)
-        NSGraphicsContext.saveGraphicsState()
-        NSGraphicsContext.setCurrent(bitmapContext)
-        //bmpImageRep.setPixel(_ p: UnsafeMutablePointer<Int>!, atX x: Int, y: Int)
-        let gpuServer = GPUServer()
-        gpuServer.compute(bmpImageRep)
-        NSGraphicsContext.restoreGraphicsState()
-        return bmpImageRep
-    }
+        fileprivate func drawToBitmap(width: Int, height: Int, scale: CGFloat) -> NSBitmapImageRep? { // TODO: Use non-rectangular or mask.
+            guard let bmpImageRep = NSBitmapImageRep(bitmapDataPlanes: nil,
+                pixelsWide: Int(CGFloat(width) * scale), pixelsHigh: Int(CGFloat(height) * scale),
+                bitsPerSample: 8, samplesPerPixel: 4,
+                hasAlpha: true, isPlanar: false,
+                colorSpaceName: NSCalibratedRGBColorSpace,
+                bytesPerRow: 0, bitsPerPixel: 0)?.retagging(with: .sRGB) else { return nil }
+            bmpImageRep.size = NSSize(width: width, height: height)
+            let bitmapContext = NSGraphicsContext(bitmapImageRep: bmpImageRep)
+            NSGraphicsContext.saveGraphicsState()
+            NSGraphicsContext.setCurrent(bitmapContext)
+            //bmpImageRep.setPixel(_ p: UnsafeMutablePointer<Int>!, atX x: Int, y: Int)
+            let gpuServer = GPUServer()
+            gpuServer.compute(bmpImageRep)
+            NSGraphicsContext.restoreGraphicsState()
+            return bmpImageRep
+        }
         fileprivate func draw(layer: NSWindow) {
             let bounds = layer.bounds
             // Figure out the scale of pixels to points
